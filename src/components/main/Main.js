@@ -31,7 +31,6 @@ function Main(props) {
         console.log(error);
       })
     //? запрос на карточки
-    let array = [];
     api.getCardArray()
       .then((res) => {
         setCards(res);

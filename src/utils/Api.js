@@ -14,18 +14,22 @@ class Api {
     return Promise.reject(`Ошибка ${res.status}`);
   }
 
+  _request(url, options) {
+    return fetch(url, options).then(this._checkResponse)
+  }
+
+
   //? возвращает данные о пользователе, используя ссылку 
   getUserInfo() {
-    return fetch(`${this._adress}/cohort-50/users/me`, {
+    return this._request(`${this._adress}/cohort-50/users/me`, {
       method: "GET",
       headers: this._headers,
     })
-      .then(this._checkResponse);
   }
 
   //? устанавливает новые данные о пользователе (имя и описание)
   setUserInfo(user) {
-    return fetch(`${this._adress}/cohort-50/users/me`, {
+    return this._request(`${this._adress}/cohort-50/users/me`, {
       method: "PATCH",
       headers: this._headers,
 
@@ -34,12 +38,11 @@ class Api {
         about: user.about
       })
     })
-      .then(this._checkResponse)
   }
 
   //? устанавливает новый аватар пользователя
   setUserAvatar(avatar) {
-    return fetch(`${this._adress}/cohort-50/users/me/avatar`, {
+    return this._request(`${this._adress}/cohort-50/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
 
@@ -47,21 +50,19 @@ class Api {
         avatar: avatar
       })
     })
-      .then(this._checkResponse)
   }
 
   //? возвращает массив карточек
   getCardArray() {
-    return fetch(`${this._adress}/cohort-50/cards`, {
+    return this._request(`${this._adress}/cohort-50/cards`, {
       method: "GET",
       headers: this._headers,
     })
-      .then(this._checkResponse)
   }
 
   //? добавляет на сервер новую карточку
   addNewCard(card) {
-    return fetch(`${this._adress}/cohort-50/cards`, {
+    return this._request(`${this._adress}/cohort-50/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
@@ -69,16 +70,14 @@ class Api {
         link: card.link
       })
     })
-      .then(this._checkResponse)
   }
 
   //? удаляет с сервера карточку
   deleteCard(card) {
-    return fetch(`${this._adress}/cohort-50/cards/${card._id}`, {
+    return this._request(`${this._adress}/cohort-50/cards/${card._id}`, {
       method: "DELETE",
       headers: this._headers,
     })
-      .then(this._checkResponse)
   }
 
   //? добавляет/убирает лайк с карточки
@@ -90,11 +89,10 @@ class Api {
       }
     })
 
-    return fetch(`${this._adress}/cohort-50/cards/${card._id}/likes`, {
+    return this._request(`${this._adress}/cohort-50/cards/${card._id}/likes`, {
       method: action,
       headers: this._headers,
     })
-      .then(this._checkResponse)
   }
 }
 

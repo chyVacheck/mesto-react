@@ -11,12 +11,16 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false);
 
+  const [selectedCard, setSelectedCard] = React.useState(null);
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsCardPopupOpen(false);
+    setSelectedCard(null);
   }
 
   function handleEditAvatarClick() {
@@ -34,6 +38,11 @@ function App() {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
 
+  function handleCardClick(card) {
+    setSelectedCard(card);
+    setIsCardPopupOpen(true);
+  }
+
   return (
     <>
       <body className='page'>
@@ -41,6 +50,7 @@ function App() {
         <Header />
         {/* <!-- ! контент сайта, блок content --> */}
         <Main
+          onCardClick={handleCardClick}
           onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick} />
@@ -194,9 +204,13 @@ function App() {
         />
 
         {/* Card pop-up */}
-        <PopupCard />
+        <PopupCard
+          isOpen={isCardPopupOpen}
+          card={selectedCard}
+          onClose={closeAllPopups}
+        />
 
-        {/* <!-- * delete pop-up --> */}
+        {/* delete pop-up */}
         <PopupWithForm
           name='delete'
           popupTitle='Вы уверены?'

@@ -1,5 +1,13 @@
 
 function Card(props) {
+  const name = props.name;
+  const link = props.link;
+  const length = props.length;
+
+  function handleClick() {
+    props.onCardClick(props.card);
+  }
+
 
   return (<li className="elements__card">
     <button
@@ -8,11 +16,11 @@ function Card(props) {
       type="button"
       className="elements__card-trash button"
     ></button>
-    <button className="elements__card-image-button">
-      <img className="elements__card-image" alt={props.name} src={props.link} />
+    <button className="elements__card-image-button" onClick={handleClick}>
+      <img className="elements__card-image" alt={name} src={link} />
     </button>
     <div className="elements__card-title-and-like">
-      <h2 className="elements__card-title">{props.name}</h2>
+      <h2 className="elements__card-title">{name}</h2>
       <div>
         <button
           id="button-like"
@@ -20,7 +28,7 @@ function Card(props) {
           type="button"
           className="elements__card-like button"
         ></button>
-        <p className="elements__card-like-number">{props.length}</p>
+        <p className="elements__card-like-number">{length}</p>
       </div>
     </div>
   </li>)

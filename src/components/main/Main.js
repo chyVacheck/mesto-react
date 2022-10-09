@@ -78,9 +78,13 @@ function Main(props) {
       <section className="elements">
         <ul className="elements__list-cards">
           {cards.map((item) => {
-            return (
-              <Card name={item.name} link={item.link} length={item.likes.length} />
-            )
+            return (<Card
+              name={item.name}
+              link={item.link}
+              card={item}
+              length={item.likes.length}
+              onCardClick={props.onCardClick}
+            />);
           })}
         </ul>
       </section>

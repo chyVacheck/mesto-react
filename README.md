@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+# Данная работа является моим проектом под названием
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# - Mesto -
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Немного о проекте
 
-### `npm start`
+    Данный проектная работа это оторажение моих навыков
+    разработки сайтов с использованием React
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    Мои сокурсники курса пишут такой же проект ТЗ одинаковое
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    Перейдя конкретно по моей ссылки снизу, можно будет лайкать карточки (если перейти с другой ссылки, то будет идиентично тому, что вы зашли с другого аккаунта, так происходит, потому что у каждого свой (токен))
 
-### `npm test`
+    Этот проект будет полной копией проекта Mesto
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Ссылка на сайт
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    Пока что я не умею выкладывать сайт написанный на React
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Как писалось ?
 
-### `npm run eject`
+    В написании данного одностраничного сайта,
+    была использованна методология БЭМ
+    (Блок Элемент Модификатор) от Яндекса
+    И собственно сам React
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Функциональность
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Профиль
+  - При клике на кнопку редактирования, открывается окно (pop-up),
+    для редактирования информации о пользователе
+  - При клике на аватарку всплывает (pop-up) для ввода ссылки на новую аватарку
+  - При клине на кнопку добавления карточки, открывается окно (pop-up), для ввода данных о карточке
+- Pop-up
+  - Открытие любого pop-up делается плавно на протяжении короткого времени
+  - При открытом (pop-up) все остальное затемняеться
+  - При клике на крестик (pop-up), тот закрывается
+- Карточки
+  - При клике на изображении в карточке, оно открывается увеличено, а так же пишется полностью название картинки
+- Кнопки
+  - Затемнение всех кнопок при наведении на них мышей
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## Что использовалось ?
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- HTML:
+  - изображения, все изображения были взяты с [Unsplash](https://unsplash.com/)
+- JSX React:
+  - `querySelector` и `querySelectorAll` (для поиска элементов в DOM дереве)
+  - `addEventListener` (для различных действий, после нажатия на ту или иную кнопку)
+  - функции добавляющие/забирающие классы у тех или иных блоков
+  - `class` для создании блоков
+  - `import` и `export` для передачи переменных и других данных между файлами
+  - `fetch` для связи с сервером и получением от него информации
+    - `then` для дальнейшей работы с полученым ответом
+    - `catch` для обработки ошибока (сейчас ошибка выводиться в консоль)
+- React:
+  - часть (позже будут все) блоки были написаны функциональными компонентами
+  - хуки, а именно useState
+- CSS:
+  - затемнение блоков при наведении на них
+  - плавное появление блоков
+  - псевдо классы `before`, `after`
+- Внешнии библиотеки:
+  - normalize.css
+  - шрифт Inter
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## Новвоведения:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- относительно прошлой работы написанной над чистом JS HTML CSS (без библиотек) новвоведений нет, даже наоборот
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Планы по доработке проекта
 
-### Making a Progressive Web App
+- доведение проекта до окончательного рабочего состояния, как мой проект [Mesto](https://github.com/chyVacheck/Mesto)
+- написание более развернутого [README](README.md)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## Что это такое ?
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- `pop-up` - всплывающее окошко, для подтверждения действий/заполнения форм/просмотра
+- `токен` - номер позволяющий запрашивать данные от сервера, и дающий понимание серверу, что это другой пользователь
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+##### Димой для ревьюера и других все читавших этот файл :))

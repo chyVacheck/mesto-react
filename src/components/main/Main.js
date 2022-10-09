@@ -2,12 +2,13 @@
 import React from "react";
 import { api } from './../../utils/Api.js';
 import Card from './../card/Card.js';
+import defaultAvatar from '../../images/avatar.png'
 
 function Main(props) {
 
-  const [userName, setUserName] = React.useState();
-  const [userDescription, setUserDescription] = React.useState();
-  const [userAvatar, setUserAvatar] = React.useState('../../images/avatar.png');
+  const [userName, setUserName] = React.useState("");
+  const [userDescription, setUserDescription] = React.useState("");
+  const [userAvatar, setUserAvatar] = React.useState(defaultAvatar);
 
   const [cards, setCards] = React.useState([]);
 
@@ -32,12 +33,6 @@ function Main(props) {
     //? запрос на карточки
     let array = [];
     api.getCardArray()
-      .then((res) => {
-        res.map((item) => {
-          array = [...array, item];
-        })
-        return array;
-      })
       .then((res) => {
         setCards(res);
       })
@@ -78,13 +73,14 @@ function Main(props) {
       <section className="elements">
         <ul className="elements__list-cards">
           {cards.map((item) => {
-            return (<Card
-              name={item.name}
-              link={item.link}
-              card={item}
-              length={item.likes.length}
-              onCardClick={props.onCardClick}
-            />);
+            return (
+              <Card
+                name={item.name}
+                link={item.link}
+                card={item}
+                length={item.likes.length}
+                onCardClick={props.onCardClick}
+              />);
           })}
         </ul>
       </section>

@@ -9,29 +9,30 @@ function Card(props) {
   }
 
 
-  return (<li className="elements__card">
-    <button
-      id="button-trash"
-      aria-label="удалить карточку"
-      type="button"
-      className="elements__card-trash button"
-    ></button>
-    <button className="elements__card-image-button" onClick={handleClick}>
-      <img className="elements__card-image" alt={name} src={link} />
-    </button>
-    <div className="elements__card-title-and-like">
-      <h2 className="elements__card-title">{name}</h2>
-      <div>
-        <button
-          id="button-like"
-          aria-label="поставить или убрать лайк"
-          type="button"
-          className="elements__card-like button"
-        ></button>
-        <p className="elements__card-like-number">{length}</p>
+  return (
+    <li className="elements__card">
+      <button
+        id="button-trash"
+        aria-label="удалить карточку"
+        type="button"
+        className="elements__card-trash button"
+      />
+      <button className="elements__card-image-button" onClick={handleClick}>
+        <img className="elements__card-image" alt={name} src={link} />
+      </button>
+      <div className="elements__card-title-and-like">
+        <h2 className="elements__card-title">{name}</h2>
+        <div>
+          <button
+            id="button-like"
+            aria-label="поставить или убрать лайк"
+            type="button"
+            className="elements__card-like button"
+          />
+          <p className="elements__card-like-number">{length}</p>
+        </div>
       </div>
-    </div>
-  </li>)
+    </li>)
 }
 
 export default Card;

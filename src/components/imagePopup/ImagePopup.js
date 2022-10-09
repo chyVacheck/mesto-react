@@ -1,4 +1,4 @@
-function PopupCard(props) {
+function ImagePopup(props) {
   const selectedCard = props.card;
   const closeAllPopups = props.onClose;
   const isOpen = props.isOpen;
@@ -30,4 +30,4 @@ function PopupCard(props) {
   )
 }
 
-export default PopupCard;
+export default ImagePopup;

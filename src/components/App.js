@@ -3,7 +3,7 @@ import Header from './header/Header.js';
 import Main from './main/Main.js';
 import Footer from './footer/Footer.js';
 import PopupWithForm from './popupWithForm/PopupWithForm.js';
-import PopupCard from './popupCard/PopupCard.js';
+import ImagePopup from './imagePopup/ImagePopup.js';
 
 function App() {
 
@@ -204,7 +204,7 @@ function App() {
         />
 
         {/* Card pop-up */}
-        <PopupCard
+        <ImagePopup
           isOpen={isCardPopupOpen}
           card={selectedCard}
           onClose={closeAllPopups}

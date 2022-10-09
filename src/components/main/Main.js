@@ -69,11 +69,12 @@ function Main(props) {
         {/* <!--? пока что нет скрипта для этого --> */}
       </section>
       {/* <!-- ? секция elements--> */}
-      <section className="elements">
+      <section className="elements" key={'123'}>
         <ul className="elements__list-cards">
-          {cards.map((item) => {
+          {cards.map((item, index) => {
             return (
               <Card
+                key={index}
                 name={item.name}
                 link={item.link}
                 card={item}

@@ -23,7 +23,7 @@ function ImagePopup(props) {
             type="button"
             id="card-button-close"
             className="popup__close-button button"
-          ></button>
+          />
         </article>
       </section>
     </>

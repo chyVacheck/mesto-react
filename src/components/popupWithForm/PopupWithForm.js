@@ -1,11 +1,6 @@
-function PopupWithForm(props) {
-
-  const name = props.name;
-  const popupTitle = props.popupTitle;
-  const buttonTitle = props.buttonTitle
-  const children = props.children;
-  const onClose = props.onClose;
-  let isOpen = props.isOpen;
+function PopupWithForm({
+  isOpen, onClose, name, popupTitle, buttonTitle, children
+}) {
 
   return (
     <>

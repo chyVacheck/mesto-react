@@ -6,22 +6,22 @@
 
 /* ? подключаем popup */
 @import url(./blocks/popup/popup.css);
-@import url(./blocks/popup/_opened/popup_opened.css);                                  /** модификатор */
+@import url(./blocks/popup/_opened/popup_opened.css); /** модификатор */
 @import url(./blocks/popup/__card/popup__card.css);
 @import url(./blocks/popup/__card-image/popup__card-image.css);
 @import url(./blocks/popup/__card-title/popup__card-title.css);
 @import url(./blocks/popup/__container/popup__container.css);
 @import url(./blocks/popup/__close-button/popup__close-button.css);
 @import url(./blocks/popup/__title/popup__title.css);
-@import url(./blocks/popup/__title/_small-popup/popup__title_small-popup.css);         /** модификатор */
+@import url(./blocks/popup/__title/_small-popup/popup__title_small-popup.css); /** модификатор */
 @import url(./blocks/popup/__field/popup__field.css);
 @import url(./blocks/popup/__input/popup__input.css);
-@import url(./blocks/popup/__input/_wrong-mesage/popup__input_wrong-mesage.css);       /** модификатор */
+@import url(./blocks/popup/__input/_wrong-mesage/popup__input_wrong-mesage.css); /** модификатор */
 @import url(./blocks/popup/__error-mesage/popup__error-mesage.css);
 @import url(./blocks/popup/__submit-button/popup__submit-button.css);
-@import url(./blocks/popup/__submit-button/_valid/popup__submit-button_valid.css);     /** модификатор */
+@import url(./blocks/popup/__submit-button/_valid/popup__submit-button_valid.css); /** модификатор */
 @import url(./blocks/popup/__submit-button/_invalid/popup__submit-button_invalid.css); /** модификатор */
-@import url(./blocks/popup/_background/popup_background_darknes.css);                  /** модификатор */
+@import url(./blocks/popup/_background/popup_background_darknes.css); /** модификатор */
 
 /* ? подключаем повторяющиюся кнопку */
 @import url(./blocks/button/button.css);
@@ -41,11 +41,11 @@
 @import url(./blocks/profile/__avatar/profile__avatar.css);
 
 @import url(./blocks/profile/__info/profile__info.css);
-  /*? подлкючаем элементы nickname edit-button description */
-  @import url(./blocks/profile/__nickname/profile__nickname.css);
-  @import url(./blocks/profile/__edit-button/profile__edit-button.css);
-  @import url(./blocks/profile/__description/profile__description.css);
-  @import url(./blocks/profile/__nick-and-button/profile__nick-and-button.css);
+/*? подлкючаем элементы nickname edit-button description */
+@import url(./blocks/profile/__nickname/profile__nickname.css);
+@import url(./blocks/profile/__edit-button/profile__edit-button.css);
+@import url(./blocks/profile/__description/profile__description.css);
+@import url(./blocks/profile/__nick-and-button/profile__nick-and-button.css);
 
 @import url(./blocks/profile/__add-button/profile__add-button.css);
 
@@ -54,6 +54,7 @@
 @import url(./blocks/elements/__list-cards/elements__list-cards.css);
 @import url(./blocks/elements/__card/elements__card.css);
 @import url(./blocks/elements/__card-trash/elements__card-trash.css);
+@import url(./blocks/elements/__card-trash/_invisible/elements__card-trash_invisible.css); /** модификатор */
 @import url(./blocks/elements/__card-image-button/elements__card-image-button.css);
 @import url(./blocks/elements/__card-image/elements__card-image.css);
 @import url(./blocks/elements/__card-title-and-like/elements__card-title-and-like.css);

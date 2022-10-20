@@ -33,10 +33,40 @@ function Main(props) {
     [] //для только 1 запуска
   );
 
+  function handleCardLike(card) {
+    //? Отправляем запрос в API и получаем обновлённые данные карточки
+    api.changeLike(card, currentUser._id)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      })
+      .catch((error) => {
+        //? Выводим сообщение для быстрого понимания, где конкретно была ошибка
+        console.log('Ошибка во время запроса лайка карточки');
+        console.log('Id: ', card._id);
+        console.log(error);
+      })
+  }
+
+  function handleCardDelete(card) {
+    //? Отправляем запрос в API на удаление карточки
+    api.deleteCard(card)
+      .then(() => {
+        setCards((state) =>
+          state.filter((c) => (c._id === card._id ? false : true))
+        )
+      })
+      .catch((error) => {
+        //? Выводим сообщение для быстрого понимания, где конкретно была ошибка
+        console.log('Ошибка во время запроса на удаление карточки');
+        console.log('Id: ', card._id);
+        console.log(error);
+      })
+  }
+
   return (
     <main className="content">
       {/* секция profile */}
-      <section className="profile">
+      <section className="profile" key={'1'}>
         <div
           onClick={handleEditAvatarClick}
           style={{ backgroundImage: `url(${currentUser.avatar || defaultAvatar})` }}
@@ -63,11 +93,13 @@ function Main(props) {
         {/* <!--? пока что нет скрипта для этого --> */}
       </section>
       {/* секция elements */}
-      <section className="elements" key={'123'}>
+      <section className="elements" key={'2'}>
         <ul className="elements__list-cards">
           {cards.map((item, index) => {
             return (
               <Card
+                onCardDelete={handleCardDelete}
+                onCardLike={handleCardLike}
                 key={index}
                 name={item.name}
                 link={item.link}

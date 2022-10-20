@@ -1,4 +1,6 @@
 
+const myCohort = 'cohort-50';
+
 class Api {
   constructor(setting) {
     this._adress = setting.baseUrl;
@@ -21,7 +23,7 @@ class Api {
 
   //? возвращает данные о пользователе, используя ссылку 
   getUserInfo() {
-    return this._request(`${this._adress}/cohort-50/users/me`, {
+    return this._request(`${this._adress}/${myCohort}/users/me`, {
       method: "GET",
       headers: this._headers,
     })
@@ -29,7 +31,7 @@ class Api {
 
   //? устанавливает новые данные о пользователе (имя и описание)
   setUserInfo(user) {
-    return this._request(`${this._adress}/cohort-50/users/me`, {
+    return this._request(`${this._adress}/${myCohort}/users/me`, {
       method: "PATCH",
       headers: this._headers,
 
@@ -42,7 +44,7 @@ class Api {
 
   //? устанавливает новый аватар пользователя
   setUserAvatar(avatar) {
-    return this._request(`${this._adress}/cohort-50/users/me/avatar`, {
+    return this._request(`${this._adress}/${myCohort}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
 
@@ -54,7 +56,7 @@ class Api {
 
   //? возвращает массив карточек
   getCardArray() {
-    return this._request(`${this._adress}/cohort-50/cards`, {
+    return this._request(`${this._adress}/${myCohort}/cards`, {
       method: "GET",
       headers: this._headers,
     })
@@ -62,7 +64,7 @@ class Api {
 
   //? добавляет на сервер новую карточку
   addNewCard(card) {
-    return this._request(`${this._adress}/cohort-50/cards`, {
+    return this._request(`${this._adress}/${myCohort}/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
@@ -74,7 +76,7 @@ class Api {
 
   //? удаляет с сервера карточку
   deleteCard(card) {
-    return this._request(`${this._adress}/cohort-50/cards/${card._id}`, {
+    return this._request(`${this._adress}/${myCohort}/cards/${card._id}`, {
       method: "DELETE",
       headers: this._headers,
     })

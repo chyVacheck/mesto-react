@@ -4,6 +4,9 @@ import Main from './main/Main.js';
 import Footer from './footer/Footer.js';
 import PopupWithForm from './popupWithForm/PopupWithForm.js';
 import ImagePopup from './imagePopup/ImagePopup.js';
+import { api } from '../utils/Api.js';
+
+import { CurrentUserContext } from './../contexts/CurrentUserContext.js';
 
 function App() {
 
@@ -13,7 +16,25 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false);
 
+  const [currentUser, setCurrentUser] = React.useState({});
+
   const [selectedCard, setSelectedCard] = React.useState(null);
+
+  //? запрос данных о пользователе
+  React.useEffect(() => {
+    api.getUserInfo()
+      .then((data) => {
+        setCurrentUser(data)
+      })
+      .catch((error) => {
+        //? Выводим сообщение для быстрого понимания, где конкретно была ошибка
+        console.log('Ошибка во время запроса данных о пользователе');
+        console.log(error);
+      })
+  },
+    [] // для 1 лишь запуска
+  )
+
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
@@ -44,7 +65,7 @@ function App() {
   }
 
   return (
-    <>
+    <CurrentUserContext.Provider value={currentUser}>
       {/* <!-- ! шапка сайта, блок header --> */}
       <Header />
       {/* <!-- ! контент сайта, блок content --> */}
@@ -178,9 +199,9 @@ function App() {
         popupTitle='Вы уверены?'
         buttonTitle='Да'
         isOpen={false}
-        onClose={closeAllPopups}
-      />
-    </>
+        onClose={closeAllPopups} />
+
+    </CurrentUserContext.Provider>
   );
 }
 

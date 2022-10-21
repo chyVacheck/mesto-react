@@ -1,10 +1,17 @@
 
 import React from "react";
-import { api } from './../../utils/Api.js';
-import Card from './../card/Card.js';
 import defaultAvatar from '../../images/avatar.png'
 
+//? импорт вспомогательных классов/объектов
+import { api } from './../../utils/Api.js';
+
+//? импорт компонентов
+import Card from './../card/Card.js';
+
+
+//? импорт данных о пользователе
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
+
 
 function Main(props) {
 

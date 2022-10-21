@@ -11,10 +11,10 @@ function PopupWithForm({
           {children}
           {/* submit */}
           <button
-            disabled
+            //todo сделать валидацию и убрать коментрарий disabled
             type="submit"
             id={`${name}-button-submit`}
-            className="popup__submit-button popup__submit-button_invalid"
+            className="popup__submit-button button popup__submit-button_valid" //todo сделать валидацию и поставить модификатор invalid
           >
             {buttonTitle}
           </button>

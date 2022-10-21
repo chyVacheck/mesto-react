@@ -10,7 +10,7 @@ import { CurrentUserContext } from './../contexts/CurrentUserContext.js';
 
 //? импорт всех поп-ап`ов
 import EditProfilePopup from './editProfilePopup/EditProfilePopup.js';
-
+import EditAvatarPopup from './editAvatarPopup/EditAvatarPopup.js';
 
 function App() {
 
@@ -28,7 +28,7 @@ function App() {
   React.useEffect(() => {
     api.getUserInfo()
       .then((data) => {
-        setCurrentUser(data)
+        setCurrentUser(data);
       })
       .catch((error) => {
         //? Выводим сообщение для быстрого понимания, где конкретно была ошибка
@@ -73,7 +73,16 @@ function App() {
         closeAllPopups();
       })
       .catch(err => console.log(`Ошибка: ${err}`));
+  }
 
+  function handleUpdateAvatar(newAvatar) {
+    api.setUserAvatar(newAvatar)
+      .then((data) => {
+        setCurrentUser(data);
+        console.log('Аватар успешно обновлен');
+        closeAllPopups();
+      })
+      .catch(err => console.log(`Ошибка: ${err}`));
   }
 
   return (
@@ -89,29 +98,14 @@ function App() {
       {/* подвал сайта, блок footer */}
       <Footer />
 
-      {/* pop-up сайта */}
+      {/* pop-up`ы сайта */}
 
       {/* avatar pop-up */}
-      <PopupWithForm
-        name='avatar'
-        popupTitle='Редактировать профиль'
-        buttonTitle='Сохранить'
+      <EditAvatarPopup
+        onUpdateAvatar={handleUpdateAvatar}
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
-      >
-        <div className="popup__field">
-          <input
-            name="avatar"
-            required
-            type="url"
-            placeholder="Ссылка на картинку"
-            className="popup__input"
-            id="avatar-input-info"
-          />
-          {/* <!-- error-mesage --> */}
-          <span className="popup__error-mesage" id="avatar-info-error-mesage"></span>
-        </div>
-      </PopupWithForm>
+      />
 
       {/* edit pop-up */}
       <EditProfilePopup
@@ -173,7 +167,7 @@ function App() {
         isOpen={false}
         onClose={closeAllPopups} />
 
-    </CurrentUserContext.Provider>
+    </CurrentUserContext.Provider >
   );
 }
 

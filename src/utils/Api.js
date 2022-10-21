@@ -86,7 +86,7 @@ class Api {
   changeLike(card, userId) {
     let action = "PUT"
     card.likes.forEach((like) => {
-      if (like._id === userId) {
+      if ((like._id === userId) && (action === "PUT")) {
         action = "DELETE"
       }
     })

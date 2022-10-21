@@ -9,7 +9,7 @@ function EditAvatarPopup(props) {
   const isEditAvatarPopupOpen = props.isOpen;
   const closeAllPopups = props.onClose;
 
-  const [avatar, setAvatar] = React.useState();
+  const [avatar, setAvatar] = React.useState("");
 
   //? Подписка на контекст
   const currentUser = React.useContext(CurrentUserContext);

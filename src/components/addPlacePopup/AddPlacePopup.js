@@ -8,8 +8,8 @@ function AddPlacePopup(props) {
   const isEditProfilePopupOpen = props.isOpen;
   const closeAllPopups = props.onClose;
 
-  const [name, setName] = React.useState();
-  const [link, setLink] = React.useState();
+  const [name, setName] = React.useState("");
+  const [link, setLink] = React.useState("");
 
   //? обнуляем значения при открытии pop-ap 
   React.useEffect(() => {

@@ -9,8 +9,8 @@ function EditProfilePopup(props) {
   const isEditProfilePopupOpen = props.isOpen;
   const closeAllPopups = props.onClose;
 
-  const [name, setName] = React.useState();
-  const [description, setDescription] = React.useState();
+  const [name, setName] = React.useState("");
+  const [description, setDescription] = React.useState("");
 
   //? Подписка на контекст
   const currentUser = React.useContext(CurrentUserContext);

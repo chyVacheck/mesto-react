@@ -3,10 +3,9 @@ import React from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Input(props) {
-  const [value, setValue] = React.useState(props.value);
-  // Обработчик изменения инпута обновляет стейт
+  //? Обработчик изменения инпута обновляет стейт
   function handleChange(e) {
-    setValue(e.target.value);
+    props.setValue(e.target.value);
   }
 
   //? Подписка на контекст
@@ -14,14 +13,14 @@ function Input(props) {
 
 
   React.useEffect(() => {
-    setValue(props.value);
+    props.setValue(props.value);
   }, [currentUser, props.isOpen]);
 
   return (
     <div className="popup__field">
       {/* <!-- name --> */}
       <input
-        value={value}
+        value={props.value}
         onChange={handleChange}
         minLength={props.minLength}
         maxLength={props.maxLength}

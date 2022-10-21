@@ -8,6 +8,10 @@ import { api } from '../utils/Api.js';
 
 import { CurrentUserContext } from './../contexts/CurrentUserContext.js';
 
+//? импорт всех поп-ап`ов
+import EditProfilePopup from './editProfilePopup/EditProfilePopup.js';
+
+
 function App() {
 
   // хуки открытия поп-апов
@@ -45,17 +49,14 @@ function App() {
   }
 
   function handleEditAvatarClick() {
-    console.log('Нажали на аватар');
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
   }
 
   function handleEditProfileClick() {
-    console.log('Нажали на редактирование профиля');
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
   }
 
   function handleAddPlaceClick() {
-    console.log('Нажали на кнопку добавления карточки');
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
 
@@ -64,20 +65,31 @@ function App() {
     setIsCardPopupOpen(true);
   }
 
+  function handleUpdateUser(newUserInfo) {
+    api.setUserInfo(newUserInfo)
+      .then((data) => {
+        setCurrentUser(data);
+        console.log('Имя и описание успешно обновлены');
+        closeAllPopups();
+      })
+      .catch(err => console.log(`Ошибка: ${err}`));
+
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      {/* <!-- ! шапка сайта, блок header --> */}
+      {/* шапка сайта, блок header */}
       <Header />
-      {/* <!-- ! контент сайта, блок content --> */}
+      {/* контент сайта, блок content */}
       <Main
         onCardClick={handleCardClick}
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick} />
-      {/* <!--  ! подвал сайта, блок footer --> */}
+      {/* подвал сайта, блок footer */}
       <Footer />
 
-      {/*! pop-up сайта --> */}
+      {/* pop-up сайта */}
 
       {/* avatar pop-up */}
       <PopupWithForm
@@ -102,51 +114,11 @@ function App() {
       </PopupWithForm>
 
       {/* edit pop-up */}
-      <PopupWithForm
-        name='edit'
-        popupTitle='Редактировать профиль'
-        buttonTitle='Сохранить'
+      <EditProfilePopup
+        onUpdateUser={handleUpdateUser}
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-      >
-        {/* <!-- name --> */}
-        <div className="popup__field">
-          {/* <!-- name --> */}
-          <input
-            minLength="2"
-            maxLength="40"
-            name="name"
-            type="text"
-            required
-            placeholder="Введите имя"
-            className="popup__input"
-            id="edit-input-name"
-          />
-          {/* <!-- error-mesage --> */}
-          <span
-            className="popup__error-mesage"
-            id="edit-name-error-mesage"
-          ></span>
-        </div>
-        {/* <!-- info --> */}
-        <div className="popup__field">
-          <input
-            minLength="2"
-            maxLength="200"
-            type="text"
-            name="about"
-            required
-            placeholder="Введите информацию о вас"
-            className="popup__input"
-            id="edit-input-info"
-          />
-          {/* <!-- error-mesage --> */}
-          <span
-            className="popup__error-mesage"
-            id="edit-info-error-mesage"
-          ></span>
-        </div>
-      </PopupWithForm>
+      />
 
       {/* add pop-up */}
       <PopupWithForm

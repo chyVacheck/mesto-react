@@ -11,6 +11,7 @@ import { CurrentUserContext } from './../contexts/CurrentUserContext.js';
 //? импорт всех поп-ап`ов
 import EditProfilePopup from './editProfilePopup/EditProfilePopup.js';
 import EditAvatarPopup from './editAvatarPopup/EditAvatarPopup.js';
+import AddPlacePopup from './addPlacePopup/AddPlacePopup.js';
 
 function App() {
 
@@ -23,6 +24,9 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
 
   const [selectedCard, setSelectedCard] = React.useState(null);
+
+  const [cards, setCards] = React.useState([]);
+
 
   //? запрос данных о пользователе
   React.useEffect(() => {
@@ -39,6 +43,20 @@ function App() {
     [] // для 1 лишь запуска
   )
 
+  //? запрос на карточки
+  React.useEffect(() => {
+    api.getCardArray()
+      .then((res) => {
+        setCards(res);
+      })
+      .catch((error) => {
+        //? Выводим сообщение для быстрого понимания, где конкретно была ошибка
+        console.log('Ошибка во время запроса карточек');
+        console.log(error);
+      })
+  },
+    [] //для только 1 запуска
+  );
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
@@ -85,12 +103,55 @@ function App() {
       .catch(err => console.log(`Ошибка: ${err}`));
   }
 
+  function handleAddPlaceSubmit(card) {
+    api.addNewCard(card)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        console.log('Карточка успешно создана');
+        closeAllPopups();
+      })
+      .catch(err => console.log(`Ошибка: ${err}`));
+  }
+
+  function handleCardLike(card) {
+    //? Отправляем запрос в API и получаем обновлённые данные карточки
+    api.changeLike(card, currentUser._id)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      })
+      .catch((error) => {
+        //? Выводим сообщение для быстрого понимания, где конкретно была ошибка
+        console.log('Ошибка во время запроса лайка карточки');
+        console.log('Id: ', card._id);
+        console.log(error);
+      })
+  }
+
+  function handleCardDelete(card) {
+    //? Отправляем запрос в API на удаление карточки
+    api.deleteCard(card)
+      .then(() => {
+        setCards((state) =>
+          state.filter((c) => (c._id === card._id ? false : true))
+        )
+      })
+      .catch((error) => {
+        //? Выводим сообщение для быстрого понимания, где конкретно была ошибка
+        console.log('Ошибка во время запроса на удаление карточки');
+        console.log('Id: ', card._id);
+        console.log(error);
+      })
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       {/* шапка сайта, блок header */}
       <Header />
       {/* контент сайта, блок content */}
       <Main
+        cards={cards}
+        handleCardLike={handleCardLike}
+        handleCardDelete={handleCardDelete}
         onCardClick={handleCardClick}
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
@@ -115,6 +176,13 @@ function App() {
       />
 
       {/* add pop-up */}
+      <AddPlacePopup
+        onAddPlace={handleAddPlaceSubmit}
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+      />
+
+      {/*  
       <PopupWithForm
         name='add'
         popupTitle='Новое место'
@@ -122,7 +190,6 @@ function App() {
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
       >
-        {/* <!-- name --> */}
         <div className="popup__field" id="popup__field-name">
           <input
             minLength="2"
@@ -134,10 +201,8 @@ function App() {
             className="popup__input"
             id="add-input-name"
           />
-          {/* <!-- error-mesage --> */}
           <span className="popup__error-mesage" id="add-name-error-mesage"></span>
         </div>
-        {/* <!-- url --> */}
         <div className="popup__field">
           <input
             name="link"
@@ -147,10 +212,10 @@ function App() {
             className="popup__input"
             id="add-input-info"
           />
-          {/* <!-- error-mesage --> */}
           <span className="popup__error-mesage" id="add-info-error-mesage"></span>
         </div>
       </PopupWithForm>
+      */}
 
       {/* Card pop-up */}
       <ImagePopup

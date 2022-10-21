@@ -20,7 +20,7 @@ function Input(props) {
     <div className="popup__field">
       {/* <!-- name --> */}
       <input
-        value={props.value}
+        value={props.value || ''}
         onChange={handleChange}
         minLength={props.minLength}
         maxLength={props.maxLength}

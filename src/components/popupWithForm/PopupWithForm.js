@@ -1,12 +1,12 @@
 function PopupWithForm({
-  isOpen, onClose, name, popupTitle, buttonTitle, children
+  isOpen, onClose, name, popupTitle, buttonTitle, children, onSubmit
 }) {
 
   return (
     <section id={`popup-${name}`} className={isOpen ? 'popup popup_opened' : 'popup'}>
       <article id={`popup-${name}-container`} className="popup__container">
         <h2 className="popup__title">{popupTitle}</h2>
-        <form name={`${name}-form`} id={`${name}-popup-form`}> {/*todo noValidate */}
+        <form onSubmit={onSubmit} name={`${name}-form`} id={`${name}-popup-form`}> {/*todo noValidate */}
           {/* all inputs */}
           {children}
           {/* submit */}

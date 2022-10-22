@@ -182,41 +182,6 @@ function App() {
         onClose={closeAllPopups}
       />
 
-      {/*  
-      <PopupWithForm
-        name='add'
-        popupTitle='Новое место'
-        buttonTitle='Создать'
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <div className="popup__field" id="popup__field-name">
-          <input
-            minLength="2"
-            maxLength="30"
-            name="name"
-            type="text"
-            required
-            placeholder="Название"
-            className="popup__input"
-            id="add-input-name"
-          />
-          <span className="popup__error-mesage" id="add-name-error-mesage"></span>
-        </div>
-        <div className="popup__field">
-          <input
-            name="link"
-            required
-            type="url"
-            placeholder="Ссылка на картинку"
-            className="popup__input"
-            id="add-input-info"
-          />
-          <span className="popup__error-mesage" id="add-info-error-mesage"></span>
-        </div>
-      </PopupWithForm>
-      */}
-
       {/* Card pop-up */}
       <ImagePopup
         isOpen={isCardPopupOpen}

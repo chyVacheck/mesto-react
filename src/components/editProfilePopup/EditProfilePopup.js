@@ -3,14 +3,17 @@ import React from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import PopupWithForm from "../popupWithForm/PopupWithForm";
 import Input from '../input/Input.js';
+import useForm from './../hooks/useForm.js';
 
 function EditProfilePopup(props) {
 
   const isEditProfilePopupOpen = props.isOpen;
   const closeAllPopups = props.onClose;
 
-  const [name, setName] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const { values, handleChange, setValues } = useForm({
+    name: '',
+    about: ''
+  });
 
   //? Подписка на контекст
   const currentUser = React.useContext(CurrentUserContext);
@@ -18,15 +21,17 @@ function EditProfilePopup(props) {
   //? После загрузки текущего пользователя из API
   //? его данные будут использованы в управляемых компонентах.
   React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
+    setValues({
+      name: currentUser.name,
+      about: currentUser.about
+    });
   }, [currentUser, isEditProfilePopupOpen]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
     props.onUpdateUser({
-      name: name,
-      about: description,
+      name: values.name,
+      about: values.about,
     });
   }
 
@@ -42,8 +47,8 @@ function EditProfilePopup(props) {
       {/* name */}
       <Input
         isOpen={isEditProfilePopupOpen}
-        value={name}
-        setValue={setName}
+        value={values.name}
+        handleChange={handleChange}
         name={'name'}
         type={'text'}
         minLength={2}
@@ -57,8 +62,8 @@ function EditProfilePopup(props) {
       {/* info */}
       <Input
         isOpen={isEditProfilePopupOpen}
-        value={description}
-        setValue={setDescription}
+        value={values.about}
+        handleChange={handleChange}
         name={'about'}
         type={'text'}
         minLength={2}

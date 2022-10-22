@@ -2,27 +2,28 @@
 import React from "react";
 import PopupWithForm from "../popupWithForm/PopupWithForm";
 import Input from '../input/Input.js';
+import useForm from './../hooks/useForm.js';
 
-function AddPlacePopup(props) {
+function AddPlacePopup({ onAddPlace, onClose, isOpen }) {
 
-  const isEditProfilePopupOpen = props.isOpen;
-  const closeAllPopups = props.onClose;
-
-  const [name, setName] = React.useState("");
-  const [link, setLink] = React.useState("");
+  const { values, handleChange, setValues } = useForm({
+    name: '',
+    link: ''
+  });
 
   //? обнуляем значения при открытии pop-ap 
   React.useEffect(() => {
-    setName('');
-    setLink('');
-  }, [isEditProfilePopupOpen]);
-
+    setValues({
+      name: '',
+      link: ''
+    });
+  }, [isOpen]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.onAddPlace({
-      name: name,
-      link: link
+    onAddPlace({
+      name: values.name,
+      link: values.link
     });
   }
 
@@ -30,16 +31,16 @@ function AddPlacePopup(props) {
     <PopupWithForm
       onSubmit={handleSubmit}
       name='edit'
-      popupTitle='Редактировать профиль'
+      popupTitle='Добавить место'
       buttonTitle='Сохранить'
-      isOpen={isEditProfilePopupOpen}
-      onClose={closeAllPopups}
+      isOpen={isOpen}
+      onClose={onClose}
     >
       {/* name */}
       <Input
-        isOpen={isEditProfilePopupOpen}
-        value={name}
-        setValue={setName}
+        isOpen={isOpen}
+        value={values.name}
+        handleChange={handleChange}
         name={'name'}
         type={'text'}
         minLength={2}
@@ -52,9 +53,9 @@ function AddPlacePopup(props) {
 
       {/* url */}
       <Input
-        isOpen={isEditProfilePopupOpen}
-        value={link}
-        setValue={setLink}
+        isOpen={isOpen}
+        value={values.link}
+        handleChange={handleChange}
         name={'link'}
         type={'url'}
         minLength={null}

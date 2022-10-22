@@ -25,7 +25,7 @@ function Main(props) {
   return (
     <main className="content">
       {/* секция profile */}
-      <section className="profile" key={'1'}>
+      <section className="profile">
         <div
           onClick={handleEditAvatarClick}
           style={{ backgroundImage: `url(${currentUser.avatar || defaultAvatar})` }}
@@ -39,7 +39,7 @@ function Main(props) {
               aria-label="открытие редактирования профиля"
               type="button"
               className="profile__edit-button button"
-            ></button>
+            />
           </div>
           <p className="profile__description">{currentUser.about || 'Исследователь мирового океана'}</p>
         </div>
@@ -48,18 +48,18 @@ function Main(props) {
           aria-label="открытие добавление новой карточки"
           type="button"
           className="profile__add-button button"
-        ></button>
+        />
         {/* <!--? пока что нет скрипта для этого --> */}
       </section>
       {/* секция elements */}
-      <section className="elements" key={'2'}>
+      <section className="elements">
         <ul className="elements__list-cards">
-          {cards.map((item, index) => {
+          {cards.map((item) => {
             return (
               <Card
                 onCardDelete={handleCardDelete}
                 onCardLike={handleCardLike}
-                key={index}
+                key={item._id}
                 name={item.name}
                 link={item.link}
                 card={item}

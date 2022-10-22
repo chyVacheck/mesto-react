@@ -21,12 +21,20 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false);
 
+  //? пользователь
   const [currentUser, setCurrentUser] = React.useState({});
 
+  //? выбранная карточка
   const [selectedCard, setSelectedCard] = React.useState(null);
 
+  //? массив всех карточек
   const [cards, setCards] = React.useState([]);
 
+  //? Открыт хоть один поп-ап
+  const isOpen = (isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard);
+
+  //? Ожидание ответа с сервера 
+  const [isLoading, setIsLoading] = React.useState(false);
 
   //? запрос данных о пользователе
   React.useEffect(() => {
@@ -58,12 +66,28 @@ function App() {
     [] //для только 1 запуска
   );
 
+  //? вешаем слушатель нажатия кнопки Escape
+  React.useEffect(() => {
+    if (isOpen) { //? навешиваем только при открытии
+      document.addEventListener('keydown', closeByEscape);
+      return () => {
+        document.removeEventListener('keydown', closeByEscape);
+      }
+    }
+  }, [isOpen])
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsCardPopupOpen(false);
     setSelectedCard(null);
+  }
+
+  function closeByEscape(evt) {
+    if (evt.key === 'Escape') {
+      closeAllPopups();
+    }
   }
 
   function handleEditAvatarClick() {
@@ -84,33 +108,45 @@ function App() {
   }
 
   function handleUpdateUser(newUserInfo) {
+    setIsLoading(true);
     api.setUserInfo(newUserInfo)
       .then((data) => {
         setCurrentUser(data);
         console.log('Имя и описание успешно обновлены');
         closeAllPopups();
       })
-      .catch(err => console.log(`Ошибка: ${err}`));
+      .catch(err => console.log(`Ошибка: ${err}`))
+      .finally(() => {
+        setIsLoading(false);
+      })
   }
 
   function handleUpdateAvatar(newAvatar) {
+    setIsLoading(true);
     api.setUserAvatar(newAvatar)
       .then((data) => {
         setCurrentUser(data);
         console.log('Аватар успешно обновлен');
         closeAllPopups();
       })
-      .catch(err => console.log(`Ошибка: ${err}`));
+      .catch(err => console.log(`Ошибка: ${err}`))
+      .finally(() => {
+        setIsLoading(false);
+      })
   }
 
   function handleAddPlaceSubmit(card) {
+    setIsLoading(true);
     api.addNewCard(card)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         console.log('Карточка успешно создана');
         closeAllPopups();
       })
-      .catch(err => console.log(`Ошибка: ${err}`));
+      .catch(err => console.log(`Ошибка: ${err}`))
+      .finally(() => {
+        setIsLoading(false);
+      })
   }
 
   function handleCardLike(card) {
@@ -163,6 +199,7 @@ function App() {
 
       {/* avatar pop-up */}
       <EditAvatarPopup
+        isLoading={isLoading}
         onUpdateAvatar={handleUpdateAvatar}
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
@@ -170,6 +207,7 @@ function App() {
 
       {/* edit pop-up */}
       <EditProfilePopup
+        isLoading={isLoading}
         onUpdateUser={handleUpdateUser}
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
@@ -177,6 +215,7 @@ function App() {
 
       {/* add pop-up */}
       <AddPlacePopup
+        isLoading={isLoading}
         onAddPlace={handleAddPlaceSubmit}
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}

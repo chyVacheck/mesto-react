@@ -68,6 +68,12 @@ function App() {
 
   //? вешаем слушатель нажатия кнопки Escape
   React.useEffect(() => {
+    function closeByEscape(evt) {
+      if (evt.key === 'Escape') {
+        closeAllPopups();
+      }
+    }
+
     if (isOpen) { //? навешиваем только при открытии
       document.addEventListener('keydown', closeByEscape);
       return () => {
@@ -82,12 +88,6 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsCardPopupOpen(false);
     setSelectedCard(null);
-  }
-
-  function closeByEscape(evt) {
-    if (evt.key === 'Escape') {
-      closeAllPopups();
-    }
   }
 
   function handleEditAvatarClick() {

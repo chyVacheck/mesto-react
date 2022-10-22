@@ -5,10 +5,7 @@ import PopupWithForm from "../popupWithForm/PopupWithForm";
 import Input from '../input/Input.js';
 import useForm from './../hooks/useForm.js';
 
-function EditAvatarPopup(props) {
-
-  const isEditAvatarPopupOpen = props.isOpen;
-  const closeAllPopups = props.onClose;
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
 
   const { values, handleChange, setValues } = useForm({
     avatar: '',
@@ -21,11 +18,11 @@ function EditAvatarPopup(props) {
   //? его данные будут использованы в управляемых компонентах.
   React.useEffect(() => {
     setValues('');
-  }, [currentUser, isEditAvatarPopupOpen]);
+  }, [currentUser, isOpen]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.onUpdateAvatar(values.avatar);
+    onUpdateAvatar(values.avatar);
   }
 
   return (
@@ -33,13 +30,13 @@ function EditAvatarPopup(props) {
       onSubmit={handleSubmit}
       name='avatar'
       popupTitle='Обновить аватар'
-      buttonTitle='Сохранить'
-      isOpen={isEditAvatarPopupOpen}
-      onClose={closeAllPopups}
+      buttonTitle={isLoading ? 'Сохранение...' : 'Сохранить'}
+      isOpen={isOpen}
+      onClose={onClose}
     >
       {/* name */}
       <Input
-        isOpen={isEditAvatarPopupOpen}
+        isOpen={isOpen}
         handleChange={handleChange}
         name={'avatar'}
         type={'url'}

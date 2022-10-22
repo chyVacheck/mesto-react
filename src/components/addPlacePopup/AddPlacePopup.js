@@ -4,7 +4,7 @@ import PopupWithForm from "../popupWithForm/PopupWithForm";
 import Input from '../input/Input.js';
 import useForm from './../hooks/useForm.js';
 
-function AddPlacePopup({ onAddPlace, onClose, isOpen }) {
+function AddPlacePopup({ onAddPlace, onClose, isOpen, isLoading }) {
 
   const { values, handleChange, setValues } = useForm({
     name: '',
@@ -32,7 +32,7 @@ function AddPlacePopup({ onAddPlace, onClose, isOpen }) {
       onSubmit={handleSubmit}
       name='edit'
       popupTitle='Добавить место'
-      buttonTitle='Сохранить'
+      buttonTitle={isLoading ? 'Создание...' : 'Создать'}
       isOpen={isOpen}
       onClose={onClose}
     >

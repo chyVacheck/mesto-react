@@ -1,11 +1,16 @@
+
 import React from 'react';
+import ProtectedRoute from './protectedRouter/ProtectedRouter.js';
 import Header from './header/Header.js';
+import Login from './login/Login.js';
+import Register from './register/Register.js';
 import Main from './main/Main.js';
 import Footer from './footer/Footer.js';
 import PopupWithForm from './popupWithForm/PopupWithForm.js';
 import ImagePopup from './imagePopup/ImagePopup.js';
 import { api } from '../utils/Api.js';
 
+import { Routes, BrowserRouter, Navigate, Route } from 'react-router-dom';
 import { CurrentUserContext } from './../contexts/CurrentUserContext.js';
 
 //? импорт всех поп-ап`ов
@@ -14,6 +19,10 @@ import EditAvatarPopup from './editAvatarPopup/EditAvatarPopup.js';
 import AddPlacePopup from './addPlacePopup/AddPlacePopup.js';
 
 function App() {
+
+  const state = {
+    loggedIn: false
+  }
 
   // хуки открытия поп-апов
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -183,17 +192,53 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       {/* шапка сайта, блок header */}
       <Header />
+
       {/* контент сайта, блок content */}
-      <Main
-        cards={cards}
-        handleCardLike={handleCardLike}
-        handleCardDelete={handleCardDelete}
-        onCardClick={handleCardClick}
-        onEditAvatar={handleEditAvatarClick}
-        onEditProfile={handleEditProfileClick}
-        onAddPlace={handleAddPlaceClick} />
-      {/* подвал сайта, блок footer */}
-      <Footer />
+      <BrowserRouter>
+        <Routes>
+          {/* основной контент */}
+          <Route
+            exact
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Main
+                  cards={cards}
+                  handleCardLike={handleCardLike}
+                  handleCardDelete={handleCardDelete}
+                  onEditAvatar={handleEditAvatarClick}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onCardClick={handleCardClick}
+                />
+                <Footer />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* регистрации  */}
+          <Route path='/sign-up'
+            element={
+              <Register />
+            }>
+          </Route>
+
+          {/* авторизация */}
+          <Route path='/sign-in'
+            element={
+              <Login />
+            }>
+          </Route>
+
+          {/* все остальные */}
+          <Route
+            path="*"
+            element={
+              <Navigate to="/"/>
+            }
+          />
+        </Routes>
+      </BrowserRouter >
 
       {/* pop-up`ы сайта */}
 

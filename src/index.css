@@ -33,6 +33,17 @@
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
 
+/*! подключаем sign */
+@import url(./blocks/sign/sign.css);
+@import url(./blocks/sign/__title/sign__title.css);
+@import url(./blocks/sign/__container/sign__container.css);
+@import url(./blocks/sign/__form/sign__form.css);
+@import url(./blocks/sign/__field/sign__field.css);
+@import url(./blocks/sign/__input/sign__input.css);
+@import url(./blocks/sign/__submit-button/sign__submit-button.css);
+@import url(./blocks/sign/__link/sign__link.css);
+@import url(./blocks/sign/__already-registered/sign__already-registered.css);
+
 /*! подключаем блок content */
 @import url(./blocks/content/content.css);
 /* todo подключаем секцию profile */

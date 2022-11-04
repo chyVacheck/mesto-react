@@ -1,0 +1,14 @@
+.sign__submit-button {
+  min-height: 50px;
+  background-color: #fff;
+  border: 0;
+  border-radius: 2px;
+  padding: 0;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+
+  margin-top: auto;
+}

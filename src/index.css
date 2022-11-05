@@ -11,6 +11,7 @@
 @import url(./blocks/popup/__card-image/popup__card-image.css);
 @import url(./blocks/popup/__card-title/popup__card-title.css);
 @import url(./blocks/popup/__container/popup__container.css);
+@import url(./blocks/popup/__container/_size/popup__container_biger.css); /** модификатор */
 @import url(./blocks/popup/__close-button/popup__close-button.css);
 @import url(./blocks/popup/__title/popup__title.css);
 @import url(./blocks/popup/__title/_small-popup/popup__title_small-popup.css); /** модификатор */
@@ -22,9 +23,12 @@
 @import url(./blocks/popup/__submit-button/_valid/popup__submit-button_valid.css); /** модификатор */
 @import url(./blocks/popup/__submit-button/_invalid/popup__submit-button_invalid.css); /** модификатор */
 @import url(./blocks/popup/_background/popup_background_darknes.css); /** модификатор */
+@import url(./blocks/popup/__infoTooltip-img/popup__infoTooltip-img.css);
+@import url(./blocks/popup/__infoTooltip-message/popup__infoTooltip-message.css);
 
 /* ? подключаем повторяющиюся кнопку */
 @import url(./blocks/button/button.css);
+@import url(./blocks/link/link.css);
 
 /*!  подключаем page */
 @import url(./blocks/page/page.css);
@@ -32,6 +36,7 @@
 /*! подключаем блок header */
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__link/header__link.css);
 
 /*! подключаем sign */
 @import url(./blocks/sign/sign.css);

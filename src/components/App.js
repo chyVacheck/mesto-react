@@ -8,7 +8,11 @@ import Main from './main/Main.js';
 import Footer from './footer/Footer.js';
 import PopupWithForm from './popupWithForm/PopupWithForm.js';
 import ImagePopup from './imagePopup/ImagePopup.js';
+import InfoTooltip from './infoTooltip/InfoTooltip.js';
 import { api } from '../utils/Api.js';
+
+import successfulIcon from '../images/InfoTooltip/successful-icon.svg';
+import unsuccessfulIcon from '../images/InfoTooltip/unsuccessful-icon.svg';
 
 import { Routes, BrowserRouter, Navigate, Route } from 'react-router-dom';
 import { CurrentUserContext } from './../contexts/CurrentUserContext.js';
@@ -29,6 +33,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false);
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = React.useState(false);
 
   //? пользователь
   const [currentUser, setCurrentUser] = React.useState({});
@@ -96,6 +101,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsCardPopupOpen(false);
+    setIsInfoTooltipPopupOpen(false);
     setSelectedCard(null);
   }
 
@@ -188,11 +194,22 @@ function App() {
       })
   }
 
+  // для откладки
+  function debug() {
+    window.setIsEditAvatarPopupOpen = setIsEditAvatarPopupOpen;
+    window.setIsEditProfilePopupOpen = setIsEditProfilePopupOpen;
+    window.setIsAddPlacePopupOpen = setIsAddPlacePopupOpen;
+    window.setIsCardPopupOpen = setIsCardPopupOpen;
+    window.setIsInfoTooltipPopupOpen = setIsInfoTooltipPopupOpen;
+  }
+
+  // включить откладку
+  if (1) {
+    debug()
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      {/* шапка сайта, блок header */}
-      <Header />
-
       {/* контент сайта, блок content */}
       <BrowserRouter>
         <Routes>
@@ -201,7 +218,12 @@ function App() {
             exact
             path="/"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute
+                loggedIn={false} //todo подставить реальное значение
+              >
+                {/* шапка сайта, блок header */}
+                <Header />
+                {/* основная часть сайта, блок main */}
                 <Main
                   cards={cards}
                   handleCardLike={handleCardLike}
@@ -211,32 +233,46 @@ function App() {
                   onAddPlace={handleAddPlaceClick}
                   onCardClick={handleCardClick}
                 />
+                {/* подвал сайта, блок footer */}
                 <Footer />
               </ProtectedRoute>
-            }
-          />
+            }>
+          </Route>
 
-          {/* регистрации  */}
-          <Route path='/sign-up'
+          {/* регистрация */}
+          <Route
+            path='/signup'
             element={
-              <Register />
+              <>
+                <Header>
+                  <a className='header__link link' href='/signin'>Войти</a>
+                </Header>
+                <Register />
+              </>
             }>
           </Route>
 
           {/* авторизация */}
-          <Route path='/sign-in'
+          <Route
+            path='/signin'
             element={
-              <Login />
+              <>
+                <Header>
+                  <a className='header__link link' href='/signup'>Регистрация</a>
+                </Header>
+                <Login />
+              </>
             }>
           </Route>
 
-          {/* все остальные */}
+          {/* все остальное */}
           <Route
             path="*"
             element={
-              <Navigate to="/"/>
-            }
-          />
+              <Navigate to="/" />
+            }>
+          </Route>
+
         </Routes>
       </BrowserRouter >
 
@@ -273,13 +309,21 @@ function App() {
         onClose={closeAllPopups}
       />
 
+      <InfoTooltip
+        isOpen={isInfoTooltipPopupOpen}
+        img={successfulIcon}
+        message={'Вы успешно зарегистрировались!'}
+        onClose={closeAllPopups}
+      />
+
       {/* delete pop-up */}
       <PopupWithForm
         name='delete'
         popupTitle='Вы уверены?'
         buttonTitle='Да'
         isOpen={false}
-        onClose={closeAllPopups} />
+        onClose={closeAllPopups}
+      />
 
     </CurrentUserContext.Provider >
   );

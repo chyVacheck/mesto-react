@@ -5,6 +5,8 @@
   height: fit-content;
   box-sizing: border-box;
   background-color: #fff;
+  display: flex;
+  flex-direction: column;
   color: #000;
   padding: 34px 36px 37px;
   border-radius: 10px;
@@ -14,7 +16,6 @@
 @media screen and (min-width: 544px) and (max-width: 1152px) {
   .popup__container {
     width: 356px;
-
     padding: 29.5px 29px;
   }
 }
@@ -22,7 +23,6 @@
 @media screen and (min-width: 320px) and (max-width: 544px) {
   .popup__container {
     width: 282px;
-
     padding: 25px 22px;
   }
 }

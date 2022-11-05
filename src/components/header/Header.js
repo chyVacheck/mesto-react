@@ -1,6 +1,6 @@
 import headerLogo from './../../images/logo.svg';
 
-function Header() {
+function Header({ children }) {
   return (
     <header className="header" >
       <img
@@ -9,6 +9,7 @@ function Header() {
         lang="en"
         alt="Mesto"
       />
+      {children}
     </header>
   );
 }

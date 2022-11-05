@@ -311,7 +311,7 @@ function App() {
 
       <InfoTooltip
         isOpen={isInfoTooltipPopupOpen}
-        img={successfulIcon}
+        img={successfulIcon} //todo поставить хук вместо константы
         message={'Вы успешно зарегистрировались!'}
         onClose={closeAllPopups}
       />

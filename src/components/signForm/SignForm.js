@@ -1,7 +1,7 @@
 
 import useForm from '../hooks/useForm.js';
 
-function SingForm({ onSubmit, formTitle, submitTitle }) {
+function SingForm({ onSubmit, formTitle, id, submitTitle }) {
 
   const { values, handleChange, setValues } = useForm({
     email: '',
@@ -13,7 +13,7 @@ function SingForm({ onSubmit, formTitle, submitTitle }) {
       className='sign__form'
       onSubmit={onSubmit}
       name='sing-form'
-      id='sing-form'
+      id={`sing-form-${id}`}
     >
       <h3 className="sign__title">{formTitle}</h3>
       {/*todo noValidate */}
@@ -50,7 +50,7 @@ function SingForm({ onSubmit, formTitle, submitTitle }) {
       <button
         //todo сделать валидацию и убрать коментрарий disabled
         type="submit"
-        id={'sing-button-submit'}
+        id={`sing-button-submit-${id}`}
         className="sign__submit-button button" //todo сделать валидацию и поставить модификатор invalid
       >
         {submitTitle}

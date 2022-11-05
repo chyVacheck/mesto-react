@@ -8,6 +8,7 @@ function Login() {
         <SingForm
           formTitle={'Вход'}
           submitTitle={'Войти'}
+          id={'login'}
         />
       </article>
     </section>

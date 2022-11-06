@@ -267,23 +267,7 @@ function App() {
     setIsInfoOpen(!isInfoOpen);
   }
 
-  //* для откладки
-  function debug() {
-    window.setIsEditAvatarPopupOpen = setIsEditAvatarPopupOpen;
-    window.setIsEditProfilePopupOpen = setIsEditProfilePopupOpen;
-    window.setIsAddPlacePopupOpen = setIsAddPlacePopupOpen;
-    window.setIsCardPopupOpen = setIsCardPopupOpen;
-    window.setIsInfoTooltipPopupOpen = setIsInfoTooltipPopupOpen;
-    window.handleRegistration = handleRegistration;
-    window.handleSignOut = handleSignOut;
-    window.setInfoTooltip = setInfoTooltip;
-    window.loggedIn = loggedIn;
-  }
-
-  //* включить откладку
-  if (1) {
-    debug()
-  }
+  
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

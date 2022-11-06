@@ -31,7 +31,7 @@ function App() {
 
   const navigate = useNavigate();
 
-  // хуки открытия поп-апов
+  //? хуки открытия поп-апов
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -40,16 +40,17 @@ function App() {
 
   const [isInfoOpen, setIsInfoOpen] = useState(false);
 
+  //? хук модификатора фона в бургерном меню
   const [isIconCloseBurgerMenu, setIsIconCloseBurgerMenu] = useState(false);
 
   //? авторизованость
   const [loggedIn, setLoggedIn] = useState(false);
 
-  //? infoTooltip
+  //? infoTooltip, сообщение и иконка
   const [infoTooltipMessage, setInfoTooltipMessage] = useState('');
   const [infoTooltipImage, setInfoTooltipImage] = useState(unsuccessfulIcon);
 
-  //? пользователь
+  //? пользователь данные и аватар
   const [currentUser, setCurrentUser] = useState({});
   const [currentEmail, setCurrentEmail] = useState('');
 
@@ -70,18 +71,35 @@ function App() {
     const token = localStorage.getItem('jwt');
     if (token) {
       handleToken(token);
-      Promise.all([api.getUserInfo(), api.getCardArray()])
-        .then(([data, cards]) => {
-          setCards(cards); //? запрос на карточки
-          setCurrentUser(data); //? запрос данных о пользователе
+    }
+  }, [loggedIn])
+
+  //? проверяем авторизацию и делаем запрос на сервер
+  useEffect(() => {
+    if (loggedIn) {
+      //? запрос данных о пользователе
+      api.getUserInfo()
+        .then((data) => {
+          setCurrentUser(data); //* устанавливаем данные пользователя получаенные с сервера
         })
         .catch((error) => {
-          //? Выводим сообщение для быстрого понимания, где конкретно была ошибка
-          console.log('Ошибка во время запроса на сервер');
+          //* Выводим сообщение для быстрого понимания, где конкретно была ошибка
+          console.log('Ошибка во время запроса данных о пользователе');
+          console.log(error);
+        })
+
+      //? запрос на карточки
+      api.getCardArray()
+        .then((res) => {
+          setCards(res); //* устанавливаем карточки получаенные с сервера
+        })
+        .catch((error) => {
+          //* Выводим сообщение для быстрого понимания, где конкретно была ошибка
+          console.log('Ошибка во время запроса карточек');
           console.log(error);
         })
     }
-  }, [loggedIn])
+  }, [])
 
   //? вешаем слушатель нажатия кнопки Escape
   useEffect(() => {

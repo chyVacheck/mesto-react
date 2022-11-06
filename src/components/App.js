@@ -1,6 +1,8 @@
 
 import React from 'react';
 import ProtectedRoute from './protectedRouter/ProtectedRouter.js';
+
+//? компоненты 
 import Header from './header/Header.js';
 import Login from './login/Login.js';
 import Register from './register/Register.js';
@@ -9,6 +11,8 @@ import Footer from './footer/Footer.js';
 import PopupWithForm from './popupWithForm/PopupWithForm.js';
 import ImagePopup from './imagePopup/ImagePopup.js';
 import InfoTooltip from './infoTooltip/InfoTooltip.js';
+import BurgerMenu from './burgerMenu/burgerMenu.js';
+
 import { api } from '../utils/Api.js';
 import { auth } from '../utils/Auth.js';
 
@@ -23,7 +27,6 @@ import EditProfilePopup from './editProfilePopup/EditProfilePopup.js';
 import EditAvatarPopup from './editAvatarPopup/EditAvatarPopup.js';
 import AddPlacePopup from './addPlacePopup/AddPlacePopup.js';
 
-
 function App() {
 
   const navigate = useNavigate();
@@ -34,6 +37,10 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false);
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = React.useState(false);
+
+  const [isInfoOpen, setIsInfoOpen] = React.useState(false);
+
+  const [isIconCloseBurgerMenu, setIsIconCloseBurgerMenu] = React.useState(false);
 
   //? авторизованость
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -276,6 +283,10 @@ function App() {
     setCurrentEmail('');
   }
 
+  function openCloseBugrer() {
+    setIsInfoOpen(!isInfoOpen);
+  }
+
   //* для откладки
   function debug() {
     window.setIsEditAvatarPopupOpen = setIsEditAvatarPopupOpen;
@@ -307,11 +318,18 @@ function App() {
               loggedIn={loggedIn}
             >
               {/* шапка сайта, блок header */}
+              <article id='info' className={isInfoOpen ? 'info info_active' : 'info'}>
+                <p className='info__email'>{currentEmail}</p>
+                <button className='info__button button' onClick={handleSignOut}>Выйти</button>
+              </article>
+
               <Header>
-                <div className='header__info'>
-                  <p>{currentEmail}</p>
-                  <button className='header__button button' onClick={handleSignOut}>Выйти</button>
-                </div>
+                <BurgerMenu
+                  close={isIconCloseBurgerMenu}
+                  setClose={setIsIconCloseBurgerMenu}
+                  onClick={openCloseBugrer}
+                  currentEmail={currentEmail}
+                  handleSignOut={handleSignOut} />
               </Header>
               {/* основная часть сайта, блок main */}
               <Main

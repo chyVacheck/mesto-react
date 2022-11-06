@@ -99,7 +99,7 @@ function App() {
           console.log(error);
         })
     }
-  }, [])
+  }, [loggedIn])
 
   //? вешаем слушатель нажатия кнопки Escape
   useEffect(() => {

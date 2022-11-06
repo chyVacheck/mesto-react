@@ -276,7 +276,7 @@ function App() {
     setCurrentEmail('');
   }
 
-  // для откладки
+  //* для откладки
   function debug() {
     window.setIsEditAvatarPopupOpen = setIsEditAvatarPopupOpen;
     window.setIsEditProfilePopupOpen = setIsEditProfilePopupOpen;
@@ -289,7 +289,7 @@ function App() {
     window.loggedIn = loggedIn;
   }
 
-  // включить откладку
+  //* включить откладку
   if (1) {
     debug()
   }
@@ -323,11 +323,11 @@ function App() {
                 onAddPlace={handleAddPlaceClick}
                 onCardClick={handleCardClick}
               />
-              {/* подвал сайта, блок footer */}
+              {/*//? подвал сайта, блок footer */}
               <Footer />
-              {/* pop-up`ы сайта */}
 
-              {/* avatar pop-up */}
+              {/*//* pop-up`ы сайта */}
+              {/*//* avatar pop-up */}
               <EditAvatarPopup
                 isLoading={isLoading}
                 onUpdateAvatar={handleUpdateAvatar}
@@ -335,7 +335,7 @@ function App() {
                 onClose={closeAllPopups}
               />
 
-              {/* edit pop-up */}
+              {/*//* edit pop-up */}
               <EditProfilePopup
                 isLoading={isLoading}
                 onUpdateUser={handleUpdateUser}
@@ -343,7 +343,7 @@ function App() {
                 onClose={closeAllPopups}
               />
 
-              {/* add pop-up */}
+              {/*//* add pop-up */}
               <AddPlacePopup
                 isLoading={isLoading}
                 onAddPlace={handleAddPlaceSubmit}
@@ -351,14 +351,14 @@ function App() {
                 onClose={closeAllPopups}
               />
 
-              {/* Card pop-up */}
+              {/*//* Card pop-up */}
               <ImagePopup
                 isOpen={isCardPopupOpen}
                 card={selectedCard}
                 onClose={closeAllPopups}
               />
 
-              {/* delete pop-up */}
+              {/*//* delete pop-up */}
               <PopupWithForm
                 name='delete'
                 popupTitle='Вы уверены?'

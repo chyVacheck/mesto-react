@@ -8,10 +8,19 @@ function SingForm({ onSubmit, formTitle, id, submitTitle }) {
     password: ''
   });
 
+  function submit(evt) {
+    evt.preventDefault();
+    onSubmit(values.email, values.password);
+    setValues({
+      email: '',
+      password: ''
+    })
+  }
+
   return (
     <form
       className='sign__form'
-      onSubmit={onSubmit}
+      onSubmit={submit}
       name='sing-form'
       id={`sing-form-${id}`}
     >

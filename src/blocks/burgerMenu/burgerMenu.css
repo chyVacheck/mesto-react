@@ -1,0 +1,19 @@
+.burgerMenu {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  column-gap: 24px;
+}
+
+@media screen and (min-width: 544px) and (max-width: 1152px) {
+  .burgerMenu {
+    margin: 0;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 544px) {
+  .burgerMenu {
+    margin-right: 30px;
+  }
+}

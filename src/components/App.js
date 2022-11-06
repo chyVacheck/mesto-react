@@ -1,5 +1,5 @@
 
-import React from 'react';
+import { useState, useEffect } from 'react';
 import ProtectedRoute from './protectedRouter/ProtectedRouter.js';
 
 //? компоненты 
@@ -32,41 +32,41 @@ function App() {
   const navigate = useNavigate();
 
   // хуки открытия поп-апов
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false);
-  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isCardPopupOpen, setIsCardPopupOpen] = useState(false);
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
 
-  const [isInfoOpen, setIsInfoOpen] = React.useState(false);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
 
-  const [isIconCloseBurgerMenu, setIsIconCloseBurgerMenu] = React.useState(false);
+  const [isIconCloseBurgerMenu, setIsIconCloseBurgerMenu] = useState(false);
 
   //? авторизованость
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   //? infoTooltip
-  const [infoTooltipMessage, setInfoTooltipMessage] = React.useState('');
-  const [infoTooltipImage, setInfoTooltipImage] = React.useState(unsuccessfulIcon);
+  const [infoTooltipMessage, setInfoTooltipMessage] = useState('');
+  const [infoTooltipImage, setInfoTooltipImage] = useState(unsuccessfulIcon);
 
   //? пользователь
-  const [currentUser, setCurrentUser] = React.useState({});
-  const [currentEmail, setCurrentEmail] = React.useState('');
+  const [currentUser, setCurrentUser] = useState({});
+  const [currentEmail, setCurrentEmail] = useState('');
 
   //? выбранная карточка
-  const [selectedCard, setSelectedCard] = React.useState(null);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   //? массив всех карточек
-  const [cards, setCards] = React.useState([]);
+  const [cards, setCards] = useState([]);
 
   //? Открыт хоть один поп-ап
   const isOpen = (isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard);
 
   //? Ожидание ответа с сервера 
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   //? запрос token
-  React.useEffect(() => {
+  useEffect(() => {
     const token = localStorage.getItem('jwt');
     if (token) {
       handleToken(token);
@@ -74,7 +74,7 @@ function App() {
   }, [loggedIn])
 
   //? запрос данных о пользователе
-  React.useEffect(() => {
+  useEffect(() => {
     api.getUserInfo()
       .then((data) => {
         setCurrentUser(data);
@@ -85,11 +85,11 @@ function App() {
         console.log(error);
       })
   },
-    [] // для 1 лишь запуска
+    [loggedIn] // для 1 лишь запуска
   )
 
   //? запрос на карточки
-  React.useEffect(() => {
+  useEffect(() => {
     api.getCardArray()
       .then((res) => {
         setCards(res);
@@ -100,11 +100,11 @@ function App() {
         console.log(error);
       })
   },
-    [] //для только 1 запуска
+    [loggedIn] //для только 1 запуска
   );
 
   //? вешаем слушатель нажатия кнопки Escape
-  React.useEffect(() => {
+  useEffect(() => {
     function closeByEscape(evt) {
       if (evt.key === 'Escape') {
         closeAllPopups();

@@ -70,38 +70,18 @@ function App() {
     const token = localStorage.getItem('jwt');
     if (token) {
       handleToken(token);
+      Promise.all([api.getUserInfo(), api.getCardArray()])
+        .then(([data, cards]) => {
+          setCards(cards); //? запрос на карточки
+          setCurrentUser(data); //? запрос данных о пользователе
+        })
+        .catch((error) => {
+          //? Выводим сообщение для быстрого понимания, где конкретно была ошибка
+          console.log('Ошибка во время запроса на сервер');
+          console.log(error);
+        })
     }
   }, [loggedIn])
-
-  //? запрос данных о пользователе
-  useEffect(() => {
-    api.getUserInfo()
-      .then((data) => {
-        setCurrentUser(data);
-      })
-      .catch((error) => {
-        //? Выводим сообщение для быстрого понимания, где конкретно была ошибка
-        console.log('Ошибка во время запроса данных о пользователе');
-        console.log(error);
-      })
-  },
-    [loggedIn] // для 1 лишь запуска
-  )
-
-  //? запрос на карточки
-  useEffect(() => {
-    api.getCardArray()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch((error) => {
-        //? Выводим сообщение для быстрого понимания, где конкретно была ошибка
-        console.log('Ошибка во время запроса карточек');
-        console.log(error);
-      })
-  },
-    [loggedIn] //для только 1 запуска
-  );
 
   //? вешаем слушатель нажатия кнопки Escape
   useEffect(() => {

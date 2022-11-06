@@ -10,11 +10,12 @@ import PopupWithForm from './popupWithForm/PopupWithForm.js';
 import ImagePopup from './imagePopup/ImagePopup.js';
 import InfoTooltip from './infoTooltip/InfoTooltip.js';
 import { api } from '../utils/Api.js';
+import { auth } from '../utils/Auth.js';
 
 import successfulIcon from '../images/InfoTooltip/successful-icon.svg';
 import unsuccessfulIcon from '../images/InfoTooltip/unsuccessful-icon.svg';
 
-import { Routes, BrowserRouter, Navigate, Route } from 'react-router-dom';
+import { Routes, useNavigate, Navigate, Route, NavLink } from 'react-router-dom';
 import { CurrentUserContext } from './../contexts/CurrentUserContext.js';
 
 //? импорт всех поп-ап`ов
@@ -22,11 +23,10 @@ import EditProfilePopup from './editProfilePopup/EditProfilePopup.js';
 import EditAvatarPopup from './editAvatarPopup/EditAvatarPopup.js';
 import AddPlacePopup from './addPlacePopup/AddPlacePopup.js';
 
+
 function App() {
 
-  const state = {
-    loggedIn: false
-  }
+  const navigate = useNavigate();
 
   // хуки открытия поп-апов
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -35,8 +35,16 @@ function App() {
   const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false);
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = React.useState(false);
 
+  //? авторизованость
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
+  //? infoTooltip
+  const [infoTooltipMessage, setInfoTooltipMessage] = React.useState('');
+  const [infoTooltipImage, setInfoTooltipImage] = React.useState(unsuccessfulIcon);
+
   //? пользователь
   const [currentUser, setCurrentUser] = React.useState({});
+  const [currentEmail, setCurrentEmail] = React.useState('');
 
   //? выбранная карточка
   const [selectedCard, setSelectedCard] = React.useState(null);
@@ -49,6 +57,14 @@ function App() {
 
   //? Ожидание ответа с сервера 
   const [isLoading, setIsLoading] = React.useState(false);
+
+  //? запрос token
+  React.useEffect(() => {
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      handleToken(token);
+    }
+  }, [loggedIn])
 
   //? запрос данных о пользователе
   React.useEffect(() => {
@@ -194,6 +210,72 @@ function App() {
       })
   }
 
+  function setInfoTooltip(error = false, message) {
+    if (error) {
+      setInfoTooltipMessage(message ? message : 'Что-то пошло не так! Попробуйте ещё раз.');
+      setInfoTooltipImage(unsuccessfulIcon);
+    } else {
+      setInfoTooltipMessage(message ? message : 'Вы успешно зарегистрировались!');
+      setInfoTooltipImage(successfulIcon);
+    }
+    setIsInfoTooltipPopupOpen(true);
+  }
+
+  function handleRegistration(email, password) {
+    auth
+      .registration(email, password)
+      .then((res) => {
+        if (res.status !== 400) {
+          setInfoTooltip();
+          navigate('/');
+        }
+      })
+      .catch((err) => {
+        setInfoTooltip(true); //todo передавать разные значения ответов
+        return console.log(err);
+      })
+  }
+
+  function handleAuthorization(email, password) {
+    auth
+      .authorization(email, password)
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem('jwt', res.token);
+        console.log(localStorage.getItem('jwt'));
+        if (localStorage.getItem('jwt')) {
+          setLoggedIn(true);
+          setCurrentEmail(email);
+          navigate('/');
+        }
+      })
+      .catch((err) => {
+        setInfoTooltip(true); //todo передавать разные значения ответов
+        return console.log(err);
+      })
+  }
+
+  function handleToken(token) {
+    auth
+      .validationJWT(token, "проверки токена")
+      .then((res) => {
+        if (res) {
+          setLoggedIn(true);
+          setCurrentEmail(res.data.email);
+          navigate('/');
+        }
+      })
+      .catch((err) => {
+        console.log(`Запрос на сервер (auth.nomoreparties.co) с целью проверки токена выдал: ${err}`);
+      })
+  }
+
+  function handleSignOut() {
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+    setCurrentEmail('');
+  }
+
   // для откладки
   function debug() {
     window.setIsEditAvatarPopupOpen = setIsEditAvatarPopupOpen;
@@ -201,6 +283,10 @@ function App() {
     window.setIsAddPlacePopupOpen = setIsAddPlacePopupOpen;
     window.setIsCardPopupOpen = setIsCardPopupOpen;
     window.setIsInfoTooltipPopupOpen = setIsInfoTooltipPopupOpen;
+    window.handleRegistration = handleRegistration;
+    window.handleSignOut = handleSignOut;
+    window.setInfoTooltip = setInfoTooltip;
+    window.loggedIn = loggedIn;
   }
 
   // включить откладку
@@ -211,117 +297,119 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       {/* контент сайта, блок content */}
-      <BrowserRouter>
-        <Routes>
-          {/* основной контент */}
-          <Route
-            exact
-            path="/"
-            element={
-              <ProtectedRoute
-                loggedIn={false} //todo подставить реальное значение
-              >
-                {/* шапка сайта, блок header */}
-                <Header />
-                {/* основная часть сайта, блок main */}
-                <Main
-                  cards={cards}
-                  handleCardLike={handleCardLike}
-                  handleCardDelete={handleCardDelete}
-                  onEditAvatar={handleEditAvatarClick}
-                  onEditProfile={handleEditProfileClick}
-                  onAddPlace={handleAddPlaceClick}
-                  onCardClick={handleCardClick}
-                />
-                {/* подвал сайта, блок footer */}
-                <Footer />
-              </ProtectedRoute>
-            }>
-          </Route>
+      <Routes>
+        {/* основной контент */}
+        <Route
+          exact
+          path="/"
+          element={
+            <ProtectedRoute
+              loggedIn={loggedIn}
+            >
+              {/* шапка сайта, блок header */}
+              <Header>
+                <div className='header__info'>
+                  <p>{currentEmail}</p>
+                  <button className='header__button button' onClick={handleSignOut}>Выйти</button>
+                </div>
+              </Header>
+              {/* основная часть сайта, блок main */}
+              <Main
+                cards={cards}
+                handleCardLike={handleCardLike}
+                handleCardDelete={handleCardDelete}
+                onEditAvatar={handleEditAvatarClick}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onCardClick={handleCardClick}
+              />
+              {/* подвал сайта, блок footer */}
+              <Footer />
+              {/* pop-up`ы сайта */}
 
-          {/* регистрация */}
-          <Route
-            path='/signup'
-            element={
-              <>
-                <Header>
-                  <a className='header__link link' href='/signin'>Войти</a>
-                </Header>
-                <Register />
-              </>
-            }>
-          </Route>
+              {/* avatar pop-up */}
+              <EditAvatarPopup
+                isLoading={isLoading}
+                onUpdateAvatar={handleUpdateAvatar}
+                isOpen={isEditAvatarPopupOpen}
+                onClose={closeAllPopups}
+              />
 
-          {/* авторизация */}
-          <Route
-            path='/signin'
-            element={
-              <>
-                <Header>
-                  <a className='header__link link' href='/signup'>Регистрация</a>
-                </Header>
-                <Login />
-              </>
-            }>
-          </Route>
+              {/* edit pop-up */}
+              <EditProfilePopup
+                isLoading={isLoading}
+                onUpdateUser={handleUpdateUser}
+                isOpen={isEditProfilePopupOpen}
+                onClose={closeAllPopups}
+              />
 
-          {/* все остальное */}
-          <Route
-            path="*"
-            element={
-              <Navigate to="/" />
-            }>
-          </Route>
+              {/* add pop-up */}
+              <AddPlacePopup
+                isLoading={isLoading}
+                onAddPlace={handleAddPlaceSubmit}
+                isOpen={isAddPlacePopupOpen}
+                onClose={closeAllPopups}
+              />
 
-        </Routes>
-      </BrowserRouter >
+              {/* Card pop-up */}
+              <ImagePopup
+                isOpen={isCardPopupOpen}
+                card={selectedCard}
+                onClose={closeAllPopups}
+              />
 
-      {/* pop-up`ы сайта */}
+              {/* delete pop-up */}
+              <PopupWithForm
+                name='delete'
+                popupTitle='Вы уверены?'
+                buttonTitle='Да'
+                isOpen={false}
+                onClose={closeAllPopups}
+              />
+            </ProtectedRoute>
+          }>
+        </Route>
 
-      {/* avatar pop-up */}
-      <EditAvatarPopup
-        isLoading={isLoading}
-        onUpdateAvatar={handleUpdateAvatar}
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-      />
+        {/* регистрация */}
+        <Route
+          path='/signup'
+          element={
+            <>
+              <Header>
+                <NavLink className='header__link link' to='/signin'>Войти</NavLink>
+              </Header>
+              <Register handleRegistration={handleRegistration} />
+            </>
+          }>
+        </Route>
 
-      {/* edit pop-up */}
-      <EditProfilePopup
-        isLoading={isLoading}
-        onUpdateUser={handleUpdateUser}
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-      />
+        {/* авторизация */}
+        <Route
+          path='/signin'
+          element={
+            <>
+              <Header>
+                <NavLink className='header__link link' to='/signup'>Регистрация</NavLink>
+              </Header>
+              <Login handleAuthorization={handleAuthorization} />
+            </>
+          }>
+        </Route>
 
-      {/* add pop-up */}
-      <AddPlacePopup
-        isLoading={isLoading}
-        onAddPlace={handleAddPlaceSubmit}
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-      />
+        {/* все остальное */}
+        <Route
+          path="*"
+          element={
+            <Navigate to="/" />
+          }>
+        </Route>
 
-      {/* Card pop-up */}
-      <ImagePopup
-        isOpen={isCardPopupOpen}
-        card={selectedCard}
-        onClose={closeAllPopups}
-      />
+      </Routes>
 
       <InfoTooltip
         isOpen={isInfoTooltipPopupOpen}
-        img={successfulIcon} //todo поставить хук вместо константы
-        message={'Вы успешно зарегистрировались!'}
-        onClose={closeAllPopups}
-      />
-
-      {/* delete pop-up */}
-      <PopupWithForm
-        name='delete'
-        popupTitle='Вы уверены?'
-        buttonTitle='Да'
-        isOpen={false}
+        img={infoTooltipImage}
+        message={infoTooltipMessage}
         onClose={closeAllPopups}
       />
 

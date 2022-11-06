@@ -10,7 +10,6 @@ class Auth {
     //? тут проверка ответа
     if (res.ok) {
       console.log(`Запрос на сервер (auth.nomoreparties.co) с целью ${message} обработан удачно`);
-      console.log('[checkResponse]res:', res);
       return res.json();
     }
     return Promise.reject(`Ошибка ${res.status}`);

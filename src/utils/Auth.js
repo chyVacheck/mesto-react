@@ -6,17 +6,18 @@ class Auth {
   }
 
   //? аналочичен методу в api
-  _checkResponse(res) {
+  _checkResponse(res, message) {
     //? тут проверка ответа
     if (res.ok) {
-      console.log('Запрос на сервер обработан удачно');
+      console.log(`Запрос на сервер (auth.nomoreparties.co) с целью ${message} обработан удачно`);
+      console.log('[checkResponse]res:', res);
       return res.json();
     }
     return Promise.reject(`Ошибка ${res.status}`);
   }
 
   //? регистрация или авторизация
-  _sign(email, password, url) {
+  _sign(email, password, url, message) {
     return fetch(`${this._adress}/${url}`, {
       method: "POST",
       headers: this._headers,
@@ -26,33 +27,33 @@ class Auth {
       }),
     })
       //? проверяем
-      .then(this._checkResponse)
+      .then((res) => {
+        return this._checkResponse(res, message);
+      })
   }
 
   //? регистрация
   registration(email, password) {
-    return this._sign(email, password, "signup")
+    return this._sign(email, password, "signup", "регистрации")
   }
 
   //? авторизация
   authorization(email, password) {
-    this._sign(email, password, "signin")
-      .then((data) => {
-        localStorage.setItem('jwt', data.token)
-      })
+    return this._sign(email, password, "signin", "авторизации")
   }
 
   //? проверка токена
-  validationJWT(token) {
+  validationJWT(token, message) {
     return fetch(`${this._adress}/users/me`, {
-      headers:
-        this._headers + {
-          Authorization: `Bearer ${token}`
-        },
-
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
     })
       //? проверяем
-      .then(this._checkResponse)
+      .then((res) => {
+        return this._checkResponse(res, message);
+      })
   }
 }
 

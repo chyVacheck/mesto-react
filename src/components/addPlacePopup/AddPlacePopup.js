@@ -2,7 +2,7 @@
 import React from "react";
 import PopupWithForm from "../popupWithForm/PopupWithForm";
 import Input from '../input/Input.js';
-import useForm from './../hooks/useForm.js';
+import useForm from "../../hooks/useForm";
 
 function AddPlacePopup({ onAddPlace, onClose, isOpen, isLoading }) {
 

@@ -1,5 +1,5 @@
 
-import useForm from '../hooks/useForm.js';
+import useForm from "../../hooks/useForm";
 
 function SingForm({ onSubmit, formTitle, id, submitTitle }) {
 

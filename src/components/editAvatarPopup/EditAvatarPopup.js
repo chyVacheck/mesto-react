@@ -3,7 +3,7 @@ import React from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import PopupWithForm from "../popupWithForm/PopupWithForm";
 import Input from '../input/Input.js';
-import useForm from './../hooks/useForm.js';
+import useForm from "../../hooks/useForm";
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
 

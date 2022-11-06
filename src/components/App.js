@@ -267,8 +267,6 @@ function App() {
     setIsInfoOpen(!isInfoOpen);
   }
 
-  
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       {/* контент сайта, блок content */}

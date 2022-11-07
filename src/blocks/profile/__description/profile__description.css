@@ -1,15 +1,14 @@
 .profile__description {
   margin: 0;
-
+  width: 100%;
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
-  
 
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
 }
 
 /*? 544 - 1152 */
@@ -25,5 +24,13 @@
   .profile__description {
     font-size: 14px;
     line-height: 17px;
+  }
+}
+
+/*? 320 - 1152 */
+@media screen and (min-width: 320px) and (max-width: 1152px) {
+  .profile__description {
+    margin: 0 auto;
+    max-width: 336px;
   }
 }

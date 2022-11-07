@@ -47,6 +47,7 @@
 /*! подключаем burgerMenu*/
 @import url(./blocks/burgerMenu/burgerMenu.css);
 @import url(./blocks/burgerMenu/__info/burgerMenu__info.css);
+@import url(./blocks/burgerMenu/__email/burgerMenu__email.css);
 @import url(./blocks/burgerMenu/__button/burgerMenu__button.css);
 @import url(./blocks/burgerMenu/__signout/burgerMenu__signout.css);
 @import url(./blocks/burgerMenu/__button/_close/burgerMenu__button_close.css); /** модификатор */

@@ -1,8 +1,8 @@
 .profile__nickname {
   margin: 0;
-  
+
   width: fit-content;
-  max-width: 294px;
+  max-width: calc(100% - 0.5px - 18px - 24px);
 
   font-weight: 500;
   font-size: 42px;
@@ -11,7 +11,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
 }
 
 /*? 544 - 1152 */

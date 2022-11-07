@@ -11,7 +11,7 @@ class Auth {
   _checkResponse(res, message) {
     //? тут проверка ответа
     if (res.ok) {
-      console.log(`Запрос на сервер (auth.nomoreparties.co) с целью ${message} обработан удачно`);
+      console.log(`Запрос на сервер [${this._adress}] с целью [${message}] обработан удачно`);
       return res.json();
     }
     return Promise.reject(`Ошибка ${res.status}`);

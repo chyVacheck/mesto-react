@@ -1,5 +1,7 @@
 
 import { URLServerData as baseUrl, tokenServerData as token } from "./Constants";
+import { consoleMessage } from "./Constants";
+
 const myCohort = 'cohort-50';
 
 class Api {
@@ -8,28 +10,32 @@ class Api {
     this._headers = setting.headers;
   }
 
-  _checkResponse(res) {
+  _checkResponse(res, message = '') {
     // тут проверка ответа
     if (res.ok) {
-      console.log('Запрос на сервер обработан удачно');
+      console.log(`Запрос на сервер [${this._adress}]${message ? ' с целью [' + message + ']' : ''} обработан успешно`);
       return res.json();
     }
     return Promise.reject(`Ошибка ${res.status}`);
   }
 
-  _request(url, options) {
-    return fetch(url, options).then(this._checkResponse)
+  _request(url, options, message) {
+    return fetch(url, options)
+      .then((res) => { return this._checkResponse(res, message) })
   }
 
-  //? возвращает данные о пользователе, используя ссылку 
+  //? запрос чтобы получить данные о пользователе
   getUserInfo() {
     return this._request(`${this._adress}/${myCohort}/users/me`, {
       method: "GET",
       headers: this._headers,
-    })
+    },
+      consoleMessage.GET + ' данные о пользователе'
+    )
   }
 
-  //? устанавливает новые данные о пользователе (имя и описание)
+  //? запрос чтобы изменить данные о пользователе
+  //* (имя и описание)
   setUserInfo(user) {
     return this._request(`${this._adress}/${myCohort}/users/me`, {
       method: "PATCH",
@@ -39,10 +45,12 @@ class Api {
         name: user.name,
         about: user.about
       })
-    })
+    },
+      consoleMessage.PATCH + ' данные о пользователе'
+    )
   }
 
-  //? устанавливает новый аватар пользователя
+  //? запрос чтобы изменить аватар пользователя
   setUserAvatar(avatar) {
     return this._request(`${this._adress}/${myCohort}/users/me/avatar`, {
       method: "PATCH",
@@ -51,18 +59,22 @@ class Api {
       body: JSON.stringify({
         avatar: avatar
       })
-    })
+    },
+      consoleMessage.PATCH + ' аватар пользователя',
+    )
   }
 
-  //? возвращает массив карточек
+  //? запрос чтобы получить массив карточек
   getCardArray() {
     return this._request(`${this._adress}/${myCohort}/cards`, {
       method: "GET",
       headers: this._headers,
-    })
+    },
+      consoleMessage.GET + ' массив карточек',
+    )
   }
 
-  //? добавляет на сервер новую карточку
+  //? запрос чтобы добавить карточку
   addNewCard(card) {
     return this._request(`${this._adress}/${myCohort}/cards`, {
       method: "POST",
@@ -71,33 +83,42 @@ class Api {
         name: card.name,
         link: card.link
       })
-    })
+    },
+      consoleMessage.POST + ' карточку',
+    )
   }
 
-  //? удаляет с сервера карточку
+  //? запрос чтобы удалить карточку
   deleteCard(card) {
     return this._request(`${this._adress}/${myCohort}/cards/${card._id}`, {
       method: "DELETE",
       headers: this._headers,
-    })
+    },
+      consoleMessage.DELETE + ' карточку',
+    )
   }
 
-  //? добавляет/убирает лайк с карточки
+  //? запрос чтобы добавить/удалить лайк с карточки
   changeLike(card, userId) {
-    let action = "PUT"
+    let action = "PUT";
+    let message = 'добавить';
     card.likes.forEach((like) => {
       if ((like._id === userId) && (action === "PUT")) {
-        action = "DELETE"
+        action = "DELETE";
+        message = 'убрать';
       }
     })
 
     return this._request(`${this._adress}/cohort-50/cards/${card._id}/likes`, {
       method: action,
       headers: this._headers,
-    })
+    },
+      consoleMessage[`${action}`] + ' лайк'
+    )
   }
 }
 
+//? создаем экземпляр класса
 export const api = new Api({
   baseUrl: baseUrl,
   headers: {

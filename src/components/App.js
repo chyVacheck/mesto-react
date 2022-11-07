@@ -148,7 +148,6 @@ function App() {
     api.setUserInfo(newUserInfo)
       .then((data) => {
         setCurrentUser(data);
-        console.log('Имя и описание успешно обновлены');
         closeAllPopups();
       })
       .catch(err => console.log(`Ошибка: ${err}`))
@@ -162,7 +161,6 @@ function App() {
     api.setUserAvatar(newAvatar)
       .then((data) => {
         setCurrentUser(data);
-        console.log('Аватар успешно обновлен');
         closeAllPopups();
       })
       .catch(err => console.log(`Ошибка: ${err}`))
@@ -176,7 +174,6 @@ function App() {
     api.addNewCard(card)
       .then((newCard) => {
         setCards([newCard, ...cards]);
-        console.log('Карточка успешно создана');
         closeAllPopups();
       })
       .catch(err => console.log(`Ошибка: ${err}`))
@@ -245,9 +242,7 @@ function App() {
     auth
       .authorization(email, password)
       .then((res) => {
-        console.log(res);
         localStorage.setItem('jwt', res.token);
-        console.log(localStorage.getItem('jwt'));
         if (localStorage.getItem('jwt')) {
           setLoggedIn(true);
           setCurrentEmail(email);

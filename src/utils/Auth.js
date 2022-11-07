@@ -1,4 +1,6 @@
 
+import { URLServerChecking as baseUrl } from "./Constants";
+
 class Auth {
   constructor(setting) {
     this._adress = setting.baseUrl;
@@ -57,7 +59,7 @@ class Auth {
 }
 
 export const auth = new Auth({
-  baseUrl: 'https://auth.nomoreparties.co', //? адресс сервера
+  baseUrl: baseUrl,
   headers: {
     'Content-Type': 'application/json',
   },

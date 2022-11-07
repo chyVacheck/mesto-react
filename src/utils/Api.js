@@ -1,4 +1,5 @@
 
+import { URLServerData as baseUrl, tokenServerData as token } from "./Constants";
 const myCohort = 'cohort-50';
 
 class Api {
@@ -19,7 +20,6 @@ class Api {
   _request(url, options) {
     return fetch(url, options).then(this._checkResponse)
   }
-
 
   //? возвращает данные о пользователе, используя ссылку 
   getUserInfo() {
@@ -98,11 +98,10 @@ class Api {
   }
 }
 
-
 export const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1', //? адресс сервера
+  baseUrl: baseUrl,
   headers: {
-    authorization: "6e341995-26c2-4e13-90fe-459da74d1f67",
+    authorization: token,
     "Content-Type": "application/json",
   },
 });

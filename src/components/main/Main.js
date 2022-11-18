@@ -49,7 +49,6 @@ function Main(props) {
           type="button"
           className="profile__add-button button"
         />
-        {/* <!--? пока что нет скрипта для этого --> */}
       </section>
       {/* секция elements */}
       <section className="elements">
